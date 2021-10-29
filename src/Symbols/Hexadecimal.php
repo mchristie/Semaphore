@@ -2,11 +2,11 @@
 
 namespace MChristie\Semaphore\Symbols;
 
+use MChristie\Semaphore\CharacterSets;
 use MChristie\Semaphore\Symbols\CharacterEncodingSymbol;
 
 class Hexadecimal extends CharacterEncodingSymbol
 {
-    private const CHARACTERS = '0123456789ABCDEF';
 
     public function __construct(int $length = 0, private bool $uppercase = true)
     {
@@ -15,7 +15,7 @@ class Hexadecimal extends CharacterEncodingSymbol
 
     protected function getCharacters(): string
     {
-        return $this->fixCase(self::CHARACTERS);
+        return $this->fixCase(CharacterSets::HEXADECIMAL);
     }
 
     public function setValue(mixed $value): static

@@ -8,6 +8,7 @@ use MChristie\Semaphore\Symbols\UUID;
 use MChristie\Semaphore\Symbols\Boolean;
 use MChristie\Semaphore\Symbols\Hexadecimal;
 use MChristie\Semaphore\Symbols\Alphanumeric;
+use MChristie\Semaphore\Symbols\ULID;
 
 require 'helpers.php';
 require __DIR__ . '/../src/Symbol.php';
@@ -24,6 +25,7 @@ require __DIR__ . '/../src/Symbols/Boolean.php';
 require __DIR__ . '/../src/Symbols/Hexadecimal.php';
 require __DIR__ . '/../src/Symbols/Integer.php';
 require __DIR__ . '/../src/Symbols/UUID.php';
+require __DIR__ . '/../src/Symbols/ULId.php';
 
 
 
@@ -339,6 +341,7 @@ $values = [
     'uuidFour'                                      => 'd70ce67f-a6d3-472d-8da7-2afa7113241e',
     'uuidFive'                                      => '46d0e3f1-806c-436e-ab28-fe729ede6f0b',
     'alpha'                                         => 'This Is 1 Big Long alphanumeric Sentence with numbers and spaces and stuff like that',
+    'ulid'                                          => '01FK5G8GKXVNPQSCWCQXG1VNP3',
 ];
 
 section('JSON & Base64 encoding');
@@ -358,6 +361,50 @@ lines(
 );
 
 wait();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+bool     bool       bool    bool    hex (fixed)      hex (variable)
+
+true     false      true    false   a                f  a        [end]
+1        0          1       0       10               15 10       16
+
+1        0          1       0       1010             01111 01010 10000
+
+
+
+
+10101010                                             01111010  10100 + 0
+
+j                                                     h         l
+
+
+jhl
+
+*/
+
+
+
+
+
+
+
 
 
 
@@ -624,6 +671,7 @@ $index = new Index(
         'uuidFour'                                          => new UUID(),
         'uuidFive'                                          => new UUID(),
         'alpha'                                             => new Alphanumeric(0, true),
+        'ulid'                                              => new ULID(),
     ]
 );
 
@@ -667,6 +715,61 @@ lines(
 );
 
 wait();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$values['secondHex'] = 'abcdef12345' . 'a';
+
+
+
+$semaphore = new Semaphore(
+    new Hexadecimal(1),
+    new Library($index),
+    CharacterSets::SAFER_ASCII
+);
+
+$encoded = $semaphore->encodeValues('A', $values);
+
+lines(
+    '',
+    '',
+    '',
+    'Encoded with "SAFER ASCII" - longer secondHex',
+    '',
+    $encoded,
+    size($encoded),
+    '',
+    'Base64 Encoded',
+    base64_encode($encoded),
+    size(base64_encode($encoded)),
+);
+
+wait();
+
 
 
 
