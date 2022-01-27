@@ -27,7 +27,7 @@ require __DIR__ . '/../src/Symbols/Integer.php';
 require __DIR__ . '/../src/Symbols/UUID.php';
 require __DIR__ . '/../src/Symbols/ULId.php';
 
-
+wait();
 
 
 
@@ -945,7 +945,7 @@ lines(
     '',
     '',
     '',
-    'Thanks for coming to my ted talk',
+    'Thanks for listening to my ted talk',
     '',
     '',
     '',
