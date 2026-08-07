@@ -1,8 +1,8 @@
 <?php
 
-namespace MChristie\Semaphore;
+declare(strict_types=1);
 
-use Generator;
+namespace MChristie\Semaphore;
 
 abstract class Symbol
 {

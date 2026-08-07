@@ -1,31 +1,35 @@
 <?php
 
-function wait()
+declare(strict_types=1);
+
+/**
+ * Tiny presentation helpers for the demo script. Not part of the library.
+ */
+
+function heading(string $title): void
 {
-    fgets(STDIN);
-    return '';
+    echo PHP_EOL . $title . PHP_EOL . str_repeat('=', strlen($title)) . PHP_EOL;
 }
 
-function section(string $title = '')
+function line(string $label, string $value): void
 {
-    echo PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL . $title . PHP_EOL . PHP_EOL . PHP_EOL . PHP_EOL;
+    echo str_pad($label, 22) . $value . PHP_EOL;
 }
 
-function lines(string ...$lines)
+function bytes(string $str): string
 {
-    foreach ($lines as $line) {
-        echo $line . PHP_EOL;
+    return strlen($str) . ' bytes';
+}
+
+function display(mixed $value): string
+{
+    if ($value instanceof DateTimeInterface) {
+        return $value->format(DATE_ATOM);
     }
-}
 
-function values(array $values)
-{
-    foreach ($values as $key => $value) {
-        echo $key . ' => ' . var_export($value, true) . PHP_EOL;
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
     }
-}
 
-function size(string $str)
-{
-    return number_format(strlen($str), 0, 2) . ' B';
+    return (string) $value;
 }

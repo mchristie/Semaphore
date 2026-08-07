@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore;
 
 use ArgumentCountError;
@@ -16,7 +18,7 @@ final class Bits
         $this->bits = $bits;
     }
 
-    public static function pad(int $size, array $bits, $pad = self::PAD_LEFT): Bits
+    public static function pad(int $size, array $bits, string $pad = self::PAD_LEFT): Bits
     {
         if (count($bits) < $size) {
             $signedSize = $pad === self::PAD_LEFT ? $size * -1 : $size;
@@ -35,7 +37,7 @@ final class Bits
         return new Bits(...$bits);
     }
 
-    public static function fromInt(int $size, int $val, $pad = self::PAD_LEFT): Bits
+    public static function fromInt(int $size, int $val, string $pad = self::PAD_LEFT): Bits
     {
         $chars = str_split(decbin($val));
         $bits = array_map(fn ($c) => !!$c, $chars);

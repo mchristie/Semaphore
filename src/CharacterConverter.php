@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore;
 
-use ArgumentCountError;
 use Exception;
-use Generator;
 
 final class CharacterConverter
 {
@@ -32,6 +32,9 @@ final class CharacterConverter
         return $this->bitLength;
     }
 
+    /**
+     * @return Bits[]
+     */
     public function encodeCharacters(string $characters): array
     {
         $return = [];
@@ -79,8 +82,8 @@ final class CharacterConverter
             return null;
         }
 
-        if ($int < 0 || $int > strlen($this->characterSet)) {
-            throw new Exception("Unable to decode character value '{$int}' - " . strlen($this->characterSet));
+        if ($int < 0 || $int >= strlen($this->characterSet)) {
+            throw new Exception("Unable to decode character value '{$int}' (character set has " . strlen($this->characterSet) . ' characters)');
         }
 
         return substr($this->characterSet, $int, 1);
@@ -91,21 +94,16 @@ final class CharacterConverter
         return $int === strlen($this->characterSet);
     }
 
-    private function calculateBitLength()
+    private function calculateBitLength(): void
     {
         $count = $this->getCharacterCount();
 
         $func = $this->actingAsStorage ? 'floor' : 'ceil';
-        $this->bitLength = (int)$func(log($count, 2));
+        $this->bitLength = (int) $func(log($count, 2));
     }
 
     private function encodeEndCharacter(): Bits
     {
         return Bits::fromInt($this->bitLength, strlen($this->characterSet));
-    }
-
-    private function getPaddingSide(): string
-    {
-        return $this->actingAsStorage ? Bits::PAD_RIGHT : Bits::PAD_LEFT;
     }
 }

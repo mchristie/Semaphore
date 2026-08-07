@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore\Symbols;
 
 use MChristie\Semaphore\CharacterSets;
-use MChristie\Semaphore\Symbols\CharacterEncodingSymbol;
 
 class Hexadecimal extends CharacterEncodingSymbol
 {
-
     public function __construct(int $length = 0, private bool $uppercase = true)
     {
         parent::__construct($length);

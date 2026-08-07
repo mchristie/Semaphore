@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore\Symbols;
 
-use Generator;
 use MChristie\Semaphore\Bits;
 use MChristie\Semaphore\Symbol;
 

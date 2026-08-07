@@ -1,8 +1,8 @@
 <?php
 
-namespace MChristie\Semaphore\Symbols;
+declare(strict_types=1);
 
-use MChristie\Semaphore\Symbols\CharacterEncodingSymbol;
+namespace MChristie\Semaphore\Symbols;
 
 class UUID extends Hexadecimal
 {

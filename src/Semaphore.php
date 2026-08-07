@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore;
 
 use Exception;
@@ -72,22 +74,17 @@ final class Semaphore
         );
     }
 
-    private function convertBitStreamToValues(Index $index, BitStream $bits)
+    private function convertBitStreamToValues(Index $index, BitStream $bits): array
     {
         $values = [];
         // Knock the bits off for the index identifier
         $bits->pump($this->identifier->getBitLength());
 
         foreach ($index->iterateSymbols() as $key => $symbol) {
-            $bitCache = [];
             do {
                 try {
-                    $chunk = $bits->pump($symbol->getBitLength());
-                    $bitCache[] = $chunk->toInt();
-                    $symbol->addBits($chunk);
+                    $symbol->addBits($bits->pump($symbol->getBitLength()));
                 } catch (Exception $e) {
-                    // var_dump($symbol->getValue());
-                    // var_dump(array_slice($bitCache, 0, 20));
                     throw new Exception("Failed converting '{$key}' ('{$symbol->getValue()}') - {$e->getMessage()}");
                 }
             } while ($symbol->isSatisfied() === false);

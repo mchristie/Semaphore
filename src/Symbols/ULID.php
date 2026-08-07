@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore\Symbols;
 
 use MChristie\Semaphore\CharacterSets;
-use MChristie\Semaphore\Symbols\CharacterEncodingSymbol;
 
 class ULID extends Hexadecimal
 {

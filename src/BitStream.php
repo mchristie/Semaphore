@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore;
 
 use Exception;
-use Generator;
 
 class BitStream
 {
     private array $bits = [];
 
-    public function append(Bits ...$incoming)
+    public function append(Bits ...$incoming): void
     {
         $this->bits = array_merge($this->bits, ...array_map(fn ($b) => $b->getBits(), $incoming));
     }
@@ -20,7 +21,7 @@ class BitStream
         $chunks = array_chunk($this->bits, $size);
 
         foreach ($chunks as $chunk) {
-            $return[] = Bits::pad($size, $chunk, false);
+            $return[] = Bits::pad($size, $chunk, Bits::PAD_RIGHT);
         }
 
         return $return;

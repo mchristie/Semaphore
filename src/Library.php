@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MChristie\Semaphore;
 
-use Generator;
 use InvalidArgumentException;
 
 final class Library
 {
+    /** @var array<string, Index> */
     private array $indexes = [];
 
     public function __construct(Index ...$indexes)
@@ -16,13 +18,17 @@ final class Library
         }
     }
 
-    public function addIndex(Index $index)
+    public function addIndex(Index $index): void
     {
-        $this->index[$index->getIdentifier()] = $index;
+        $this->indexes[$index->getIdentifier()] = $index;
     }
 
-    public function getIndex(string $identifier)
+    public function getIndex(string $identifier): Index
     {
-        return $this->index[$identifier];
+        if (!isset($this->indexes[$identifier])) {
+            throw new InvalidArgumentException("No index registered for identifier '{$identifier}'");
+        }
+
+        return $this->indexes[$identifier];
     }
 }
